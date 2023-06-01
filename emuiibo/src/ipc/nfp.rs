@@ -187,7 +187,7 @@ impl EmulationHandler {
         let amiibo = emu::get_active_virtual_amiibo();
         result_return_unless!(amiibo.is_valid(), nfp::rc::ResultDeviceNotFound);
 
-        let application_area = area::ApplicationArea::from(&amiibo, access_id);
+        let application_area = area::ApplicationArea::from_id(&amiibo, self.application_id, access_id);
         result_return_unless!(application_area.exists(), nfp::rc::ResultAreaNeedsToBeCreated);
 
         amiibo.update_area_program_id(access_id, self.application_id)?;
@@ -245,7 +245,7 @@ impl EmulationHandler {
         let amiibo = emu::get_active_virtual_amiibo();
         result_return_unless!(amiibo.is_valid(), nfp::rc::ResultDeviceNotFound);
 
-        let application_area = area::ApplicationArea::from(&amiibo, access_id);
+        let application_area = area::ApplicationArea::from_id(&amiibo, self.application_id, access_id);
         result_return_if!(application_area.exists(), nfp::rc::ResultAreaNeedsToBeCreated);
 
         application_area.create(data.get_address(), data.get_size(), false)?;
@@ -361,7 +361,7 @@ impl EmulationHandler {
         let amiibo = emu::get_active_virtual_amiibo();
         result_return_unless!(amiibo.is_valid(), nfp::rc::ResultDeviceNotFound);
 
-        let application_area = area::ApplicationArea::from(&amiibo, access_id);
+        let application_area = area::ApplicationArea::from_id(&amiibo, self.application_id, access_id);
         application_area.create(data.get_address(), data.get_size(), true)?;
         amiibo.notify_written()?;
         Ok(())

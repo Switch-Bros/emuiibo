@@ -76,7 +76,7 @@ macro_rules! read_deserialize_json {
 }
 
 macro_rules! write_serialize_json {
-    ($path:expr, $t:expr) => {
+    ($path:expr, $t:expr) => {{
         if let Ok(json_data) = serde_json::to_vec_pretty($t) {
             let _ = nx::fs::delete_file($path.clone());
             let mut file = nx::fs::open_file($path.clone(), nx::fs::FileOpenOption::Create() | nx::fs::FileOpenOption::Write() | nx::fs::FileOpenOption::Append())?;
@@ -86,7 +86,7 @@ macro_rules! write_serialize_json {
         else {
             Err($crate::rc::ResultInvalidJsonSerialization::make())
         }
-    };
+    }};
 }
 
 pub fn ensure_directories() -> Result<()> {

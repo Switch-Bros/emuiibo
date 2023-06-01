@@ -1,9 +1,10 @@
 use nx::result::*;
 use nx::fs;
 use nx::ipc::sf::nfp;
-use alloc::string::String;
-use crate::amiibo;
-use crate::fsext;
+use alloc::string::{String, ToString};
+use alloc::vec::Vec;
+use serde::{Serialize, Deserialize};
+use crate::{amiibo, fsext};
 
 pub struct ApplicationArea {
     area_file: String
@@ -14,6 +15,13 @@ impl ApplicationArea {
         Self { area_file: String::new() }
     }
 
+    pub fn from_id(virtual_amiibo: &amiibo::fmt::VirtualAmiibo, program_id: u64, access_id: nfp::AccessId) -> Self {
+        log!("Saving {:#X} -> {:#X} cache!\n", program_id, access_id);
+        let rc = push_access_id_cache(program_id, access_id);
+        log!("Cache result: {:?}\n", rc);
+        Self::from(virtual_amiibo, access_id)
+    }
+    
     pub fn from(virtual_amiibo: &amiibo::fmt::VirtualAmiibo, access_id: nfp::AccessId) -> Self {
         let areas_dir = format!("{}/areas", virtual_amiibo.path);
         let _ = fs::create_directory(areas_dir.clone());
@@ -65,4 +73,43 @@ impl ApplicationArea {
         let mut file = fs::open_file(self.area_file.clone(), fs::FileOpenOption::Read())?;
         file.get_size()
     }
+}
+
+pub const ACCESS_ID_CACHE_PATH: &'static str = "sdmc:/emuiibo/access_id_cache.json";
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct AccessIdCache {
+    pub cache: Vec<amiibo::fmt::VirtualAmiiboAreaEntry>
+}
+
+impl AccessIdCache {
+    pub const fn new() -> Self {
+        Self {
+            cache: Vec::new()
+        }
+    }
+}
+
+#[inline(always)]
+pub(crate) fn read_access_id_cache() -> Result<AccessIdCache> {
+    read_deserialize_json!(ACCESS_ID_CACHE_PATH.to_string() => AccessIdCache)
+}
+
+pub fn push_access_id_cache(program_id: u64, access_id: nfp::AccessId) -> Result<()> {
+    let mut cache_json = read_access_id_cache().unwrap_or(AccessIdCache::new());
+
+    let mut found = false;
+    for entry in cache_json.cache.iter_mut() {
+        if entry.program_id == program_id {
+            entry.access_id = access_id;
+            found = true;
+            break;
+        }
+    }
+
+    if !found {
+        cache_json.cache.push(amiibo::fmt::VirtualAmiiboAreaEntry { program_id, access_id });
+    }
+    write_serialize_json!(ACCESS_ID_CACHE_PATH.to_string(), &cache_json)?;
+    Ok(())
 }
