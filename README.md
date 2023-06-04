@@ -66,6 +66,8 @@ Extract all ZIP files and copy the folders on your SD card. It should look like 
 - *tesla-menu*: `sd:/switch/.overlays/ovlmenu.ovl`
 - *nx-ovlloader*: `sd:/atmosphere/contents/420000000007E51A/exefs.nsp` and `/flags` folder
 
+Always keep in mind that (if these contents were placed without turning off the console, using FTP, NTP, etc.) a reboot will be needed for emuiibo to actually work/reload!
+
 ## Virtual amiibos
 
 Virtual amiibos go inside `sd:/emuiibo/amiibo`. For instance, an amiibo named `MyMario` would be `sd:/emuiibo/amiibo/MyMario/<amiibo content>`. They can go inside sub-directories, like `sd:/emuiibo/amiibo/SSBU/Yoshi`.
