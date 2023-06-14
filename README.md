@@ -66,7 +66,7 @@ Extract all ZIP files and copy the folders on your SD card. It should look like 
 - *tesla-menu*: `sd:/switch/.overlays/ovlmenu.ovl`
 - *nx-ovlloader*: `sd:/atmosphere/contents/420000000007E51A/exefs.nsp` and `/flags` folder
 
-Always keep in mind that (if these contents were placed without turning off the console, using FTP, NTP, etc.) a reboot will be needed for emuiibo to actually work/reload!
+Always keep in mind that (if these contents were placed without turning off the console, using FTP, MTP, etc.) a reboot will be needed for emuiibo to actually work/reload!
 
 ## Virtual amiibos
 
@@ -194,7 +194,7 @@ To go back in the menus, just press **B** button.
 
 ## Compiling
 
-In order to compile emuiibo you need to [setup Rust for Nintendo Switch development](https://github.com/aarch64-switch-rs/setup-guide). You'll also need devkitPro (devkitA64 specifically).
+In order to compile emuiibo you need to [setup Rust for Nintendo Switch development](https://github.com/aarch64-switch-rs/setup-guide). You'll also need devkitPro (devkitA64 specifically), in order to compile the overlay.
 
 With this requirements satisfied, simply clone (recursively) this repo and hit `make`
 
