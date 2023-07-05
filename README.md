@@ -1,9 +1,6 @@
 <p align="center">
-  <img alt="Discord Server" src="emutool/PcIcon.png">
-</p>
-<h1 align="center">
-  emuiibo
-</h1>
+  <img alt="emuiibo" src="res/logo.png">
+</p
 
 <p align="center">
   Virtual amiibo (amiibo emulation) system for Nintendo Switch
@@ -56,7 +53,7 @@ Make sure you always read the README and release changelogs (which are located o
 
 You will need the following files:
 
-- emuiibo and emutool (grab the latest release [here](https://github.com/XorTroll/emuiibo/releases/latest))
+- emuiibo and emuiigen (formerly emutool) (grab the latest release [here](https://github.com/XorTroll/emuiibo/releases/latest))
 - Tesla (grab the latest [Tesla-Menu](https://github.com/WerWolv/Tesla-Menu/releases/latest) and [nx-ovlloader](https://github.com/WerWolv/nx-ovlloader/releases/latest))
 
 Extract all ZIP files and copy the folders on your SD card. It should look like this in the end:
@@ -86,7 +83,7 @@ This are the properties an amiibo has:
 
 - Mii: every amiibo has a mii associated with it (it's "owner"). Internally, miis consist on a 88-byte structure known as "char-info", so emuiibo stores this data in a file (typically `mii-charinfo.bin`). For new amiibos, emuiibo uses the console's services to generate a random mii, but for those who would like to use a mii from their console, emuiibo dumps in `miis` directory the console's miis, so it's just a matter of copying and pasting/replacing charinfo bin files. *NOTE*: emuiibo contains the charinfo file's name in the JSON (`mii_charinfo_file`), so if the file ever gets renamed, don't forget to rename it in the JSON too, or emuiibo will generate a random mii for the file name in the JSON.
 
-- First and last write dates: these are (as if it wasn't obvious) the first and last time the amiibo was written/modified. When a virtual amiibo is created with emutool, the current date is assigned to both dates, and when the amiibo is modified in console, emuiibo updates the last write date.
+- First and last write dates: these are (as if it wasn't obvious) the first and last time the amiibo was written/modified. When a virtual amiibo is created with emuiigen, the current date is assigned to both dates, and when the amiibo is modified in console, emuiibo updates the last write date.
 
 - Write counter: this is a number which is increased everytime the amiibo is modified (and emuiibo does so, imitating Nintendo), but when the number reaches 65535, it is no longer increased (the number is technically a 16-bit number)
 
@@ -94,7 +91,9 @@ This are the properties an amiibo has:
 
 ### Virtual amiibo creation
 
-While old emuiibo formats are supported and converted to the current format (see above), it is strongly suggested to, unless bin dumps might be indispensable, `emutool` be used, our PC tool designed to create virtual amiibos:
+While old emuiibo formats are supported and converted to the current format (see above), it is strongly suggested to, unless bin dumps might be indispensable, `emuiigen` be used, our PC utility designed to create and edit virtual amiibos:
+
+> TODO: finish updating this for emuiigen
 
 ![Screenshot](emutool/Screenshot.png)
 
@@ -208,7 +207,7 @@ The overlay's code serves a good example to see how to control emuiibo with libn
 
 - Everyone who contributed to the original **nfp-mitm** project (and other forks): *Subv, ogniK, averne, spx01, SciresM*
 
-- **AmiiboAPI** web API, which is used by `emutool` to get a proper, full amiibo list, in order to generate virtual amiibos.
+- **AmiiboAPI** web API, which is used by `emuiigen` to get a proper, full amiibo list, in order to generate virtual amiibos.
 
 - [**3dbrew**](https://www.3dbrew.org/wiki/Amiibo) for their detailed documentation of amiibos, even though some aspects are different on the Switch.
 
@@ -224,7 +223,7 @@ The overlay's code serves a good example to see how to control emuiibo with libn
 
 - **Citra** devs for several amiibo formats used in 3DS systems.
 
-- **Manlibear** for helping with improvements and development of `emutool`.
+- **Manlibear** for helping with improvements and development of former `emutool`.
 
 - All the testers and supporters from my Discord server who were essential for making this project progress and become what it is now :)
 

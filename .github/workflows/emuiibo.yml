@@ -46,7 +46,7 @@ jobs:
         make install -j$(nproc)
 
     - name: Build
-      run: make -j$(nproc)
+      run: make emuiibo -j$(nproc)
 
     - name: Upload
       uses: actions/upload-artifact@v3
