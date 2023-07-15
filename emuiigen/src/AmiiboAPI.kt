@@ -12,7 +12,7 @@ class AmiiboAPI {
                 val json_data = JSONObject(raw_json);
                 val json_entries = json_data.getJSONArray("amiibo");
 
-                val entry_map = mutableMapOf<String, List<AmiiboAPIEntry>>();
+                val entry_map = mutableMapOf<String, MutableList<AmiiboAPIEntry>>();
                 for(i in 0 until json_entries.length()) {
                     val entry = AmiiboAPIEntry.fromJson(json_entries.getJSONObject(i));
                     val series = entry_map.get(entry.series_name)?.toMutableList();
@@ -21,8 +21,11 @@ class AmiiboAPI {
                         entry_map.put(entry.series_name, series);
                     }
                     ?: let {
-                        entry_map.put(entry.series_name, listOf(entry));
+                        entry_map.put(entry.series_name, mutableListOf(entry));
                     }
+                }
+                for(bass in entry_map.values) {
+                    bass.sortWith(compareBy(AmiiboAPIEntry::amiibo_name));
                 }
                 return entry_map;
             }

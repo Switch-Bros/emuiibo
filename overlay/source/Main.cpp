@@ -72,6 +72,8 @@ namespace {
     // Defined in Makefile
     constexpr emu::Version ExpectedVersion = { VER_MAJOR, VER_MINOR, VER_MICRO, {} };
 
+    constexpr auto FavoritesFile = "sdmc:/emuiibo/overlay/favorites.txt";
+
     bool g_InitializationOk;
     std::string g_VirtualAmiiboDirectory;
     emu::Version g_Version;
@@ -189,8 +191,6 @@ namespace {
         emu::ResetActiveVirtualAmiibo();
         LoadActiveVirtualAmiibo();
     }
-
-    constexpr auto FavoritesFile = "sdmc:/emuiibo/overlay/favorites.txt";
 
     inline void AddFavorite(const std::string &path) {
         g_Favorites.push_back(path);

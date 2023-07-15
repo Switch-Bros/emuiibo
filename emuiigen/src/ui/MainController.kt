@@ -118,6 +118,7 @@ class MainController {
 
                     val img = Image(amiibo.image_url, true);
                     this@MainController.AmiiboImage.setImage(img);
+                    this@MainController.AmiiboNameText.setText(amiibo.amiibo_name);
                 }
             }
             ?: let {
