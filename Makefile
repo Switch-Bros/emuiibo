@@ -7,8 +7,6 @@ PROGRAM_ID := 0100000000000352
 
 emuiibo: sysmodule overlay dist
 
-all: emuiibo emuiigen
-
 sysmodule:
 	@cd emuiibo && cargo update && cargo nx build --release --target $(TARGET_TRIPLE).json
 
@@ -36,3 +34,5 @@ emuiibo-clean:
 
 emuiigen-clean:
 	@cd emuiigen && mvn clean
+
+all: emuiibo emuiigen

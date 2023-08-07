@@ -385,7 +385,7 @@ impl VirtualAmiibo {
             mii_charinfo: self.mii_charinfo,
             first_write_date: self.info.first_write_date.to_date(),
             name: util::CString::from_str(&self.info.name.clone()[0..self.info.name.len().min(10)]),
-            unk: 0,
+            font_region: 0,
             reserved: [0; 0x7A]
         })
     }
@@ -450,7 +450,7 @@ impl VirtualAmiibo {
                 Some(_) => nfp::AdminInfoFlags::IsInitialized() | nfp::AdminInfoFlags::HasApplicationArea(),
                 None => nfp::AdminInfoFlags::IsInitialized()
             },
-            unk_0x2: 0x2,
+            tag_type: 0x2,
             console_family,
             pad: [0; 0x7],
             reserved: [0; 0x28]

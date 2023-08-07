@@ -1,37 +1,73 @@
 package com.xortroll.emuiibo.emuiigen
+
 import org.json.JSONObject
 import org.json.JSONArray
+import java.io.FileWriter
+import java.io.FileInputStream
+import java.net.URLDecoder
+import java.nio.file.Path
+import java.nio.file.Paths
+import org.apache.commons.io.IOUtils
 
 class AmiiboAPI {
     companion object {
         val Url = "https://www.amiiboapi.com/api/amiibo/";
 
+        fun parseApiJson(json_data: JSONObject) : Map<String, List<AmiiboAPIEntry>>? {
+            val json_entries = json_data.getJSONArray("amiibo");
+
+            val entry_map = mutableMapOf<String, MutableList<AmiiboAPIEntry>>();
+            for(i in 0 until json_entries.length()) {
+                val entry = AmiiboAPIEntry.fromJson(json_entries.getJSONObject(i));
+                val series = entry_map.get(entry.series_name)?.toMutableList();
+                series?.let {
+                    series.add(entry);
+                    entry_map.put(entry.series_name, series);
+                }
+                ?: let {
+                    entry_map.put(entry.series_name, mutableListOf(entry));
+                }
+            }
+            for(bass in entry_map.values) {
+                bass.sortWith(compareBy(AmiiboAPIEntry::amiibo_name));
+            }
+            return entry_map;
+        }
+
         fun readApi() : Map<String, List<AmiiboAPIEntry>>? {
+            val cur_path = Path.of(URLDecoder.decode(this.javaClass.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8")).parent;
+            val local_api_json_path = Paths.get(cur_path.toAbsolutePath().toString(), "api.json").toString();
+
             try {
                 val raw_json = Utils.netDownloadString(Url);
                 val json_data = JSONObject(raw_json);
-                val json_entries = json_data.getJSONArray("amiibo");
 
-                val entry_map = mutableMapOf<String, MutableList<AmiiboAPIEntry>>();
-                for(i in 0 until json_entries.length()) {
-                    val entry = AmiiboAPIEntry.fromJson(json_entries.getJSONObject(i));
-                    val series = entry_map.get(entry.series_name)?.toMutableList();
-                    series?.let {
-                        series.add(entry);
-                        entry_map.put(entry.series_name, series);
-                    }
-                    ?: let {
-                        entry_map.put(entry.series_name, mutableListOf(entry));
-                    }
+                try {
+                    val json_data_w = FileWriter(local_api_json_path);
+                    json_data_w.write(json_data.toString(4));
+                    json_data_w.flush();
+                    json_data_w.close();
                 }
-                for(bass in entry_map.values) {
-                    bass.sortWith(compareBy(AmiiboAPIEntry::amiibo_name));
+                catch(ex: Exception) {
+                    System.out.println("Exception saving AmiiboAPI as local JSON: " + ex.toString());
                 }
-                return entry_map;
+
+                return parseApiJson(json_data);
             }
             catch(ex: Exception) {
                 System.out.println("Exception reading AmiiboAPI: " + ex.toString());
-                return null;
+
+                try {
+                    // Try loading local saved API
+                    val json_data_strm = FileInputStream(local_api_json_path);
+                    val json_data_raw = IOUtils.toString(json_data_strm);
+                    val json_data = JSONObject(json_data_raw);
+                    return parseApiJson(json_data);
+                }
+                catch(ex: Exception) {
+                    System.out.println("Exception reading local API JSON: " + ex.toString());
+                    return null;
+                }
             }
         }
     }
