@@ -9,6 +9,7 @@ use nx::util;
 use nx::rand::RandomGenerator;
 use nx::result::*;
 use crate::fsext;
+use crate::miiext;
 use super::ntag::Manufacturer1;
 use super::ntag::Manufacturer2;
 use super::{ntag, fmt};
@@ -1391,7 +1392,7 @@ impl PlainFormat {
                     write_counter_be.swap_bytes()
                 }
             },
-            mii_charinfo: Default::default(), // TODO: convert from 3DS format!
+            mii_charinfo: miiext::generate_random_mii()?, // TODO: convert from 3DS format! meanwhile set a random mii
             areas: {
                 let flags = self.dec_data.settings.flags; 
                 let access_id_be = self.dec_data.settings.access_id_be;
