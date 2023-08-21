@@ -150,8 +150,6 @@ impl VirtualAmiiboAreaInfo {
     }
 }
 
-const DEFAULT_MII_NAME: &'static str = "emuiibo";
-
 pub fn generate_areas_json(path: String) -> Result<Option<nfp::AccessId>> {
     let mut access_ids: Vec<nfp::AccessId> = Vec::new();
 
@@ -237,8 +235,6 @@ impl VirtualAmiibo {
         }
         else {
             let mut random_mii = miiext::generate_random_mii()?;
-            random_mii.name.set_str(DEFAULT_MII_NAME)?;
-            
             let mut mii_charinfo_file = fs::open_file(mii_charinfo_path, fs::FileOpenOption::Create() | fs::FileOpenOption::Write() | fs::FileOpenOption::Append())?;
             mii_charinfo_file.write_val(&random_mii)?;
             Ok(random_mii)

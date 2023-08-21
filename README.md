@@ -91,29 +91,9 @@ This are the properties an amiibo has:
 
 ### Virtual amiibo creation
 
-While old emuiibo formats are supported and converted to the current format (see above), it is strongly suggested to, unless bin dumps might be indispensable, `emuiigen` be used, our PC utility designed to create and edit virtual amiibos:
+While old emuiibo formats are supported and converted to the current format (see above), it is strongly suggested to, unless bin dumps might be indispensable, `emuiigen` be used, the intuitive PC utility designed to create and edit virtual amiibos:
 
-> TODO: finish updating this for emuiigen
-
-![Screenshot](emutool/Screenshot.png)
-
-On the left half of the program:
-
-- In the first dropdown menu on top, you can choose amiibos from a certain collection. In the second dropdown menu next to it, you can choose any amiibo you want to create.
-
-On the right half of the tool:
-
-- You can choose a name for the amiibo you want to create, a custom directory name (if you uncheck "Use name as directory name" below it).
-
-- You can then choose if you want the amiibo to use randomized UUIDs. This means that the console always read it as a new/unique amiibo (some games have restrictions to use the same amiibo only once or once a day). Note that this might cause issues for games which save data into amiibos, so avoid using it on those!
-
-- Then, you can choose if you want to save the amiibo picture shown on the left into the amiibo folder (it will be saved as a PNG file).
-
-**Optional**:
-
-- If you have a FTP connection on your switch console, you can directly save your amiibo on your SD into `/emuiibo/amiibo`
-
-In the last step you click on "Create virtual amiibo" and choose a location, where you want to save it to. If an SD card with emuiibo is detected, the program will point to that SD's `/emuiibo/amiibo` folder.
+![Screenshot](screenshots/emuiigen.png)
 
 Now you can copy the generated amiibo folder onto your SD card, in `sd:/emuiibo/amiibo` or in any subdirectories inside it!
 

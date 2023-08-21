@@ -39,7 +39,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 APP_TITLE	:= 	emuiibo
 VER_MAJOR	:=	1
-VER_MINOR	:=	0
+VER_MINOR	:=	1
 VER_MICRO	:=	0
 APP_VERSION :=	$(VER_MAJOR).$(VER_MINOR).$(VER_MICRO)
 TARGET		:=	$(APP_TITLE)

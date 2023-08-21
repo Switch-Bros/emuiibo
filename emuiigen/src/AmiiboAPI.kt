@@ -2,9 +2,9 @@ package com.xortroll.emuiibo.emuiigen
 
 import org.json.JSONObject
 import org.json.JSONArray
+import java.io.File
 import java.io.FileWriter
 import java.io.FileInputStream
-import java.net.URLDecoder
 import java.nio.file.Path
 import java.nio.file.Paths
 import org.apache.commons.io.IOUtils
@@ -35,8 +35,8 @@ class AmiiboAPI {
         }
 
         fun readApi() : Map<String, List<AmiiboAPIEntry>>? {
-            val cur_path = Path.of(URLDecoder.decode(this.javaClass.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8")).parent;
-            val local_api_json_path = Paths.get(cur_path.toAbsolutePath().toString(), "api.json").toString();
+            val cur_path = File(this::class.java.getProtectionDomain().getCodeSource().getLocation().toURI()).parentFile.absolutePath;
+            val local_api_json_path = Paths.get(cur_path, "api.json").toString();
 
             try {
                 val raw_json = Utils.netDownloadString(Url);

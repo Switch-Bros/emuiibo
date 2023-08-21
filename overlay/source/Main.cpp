@@ -782,6 +782,7 @@ class EmuiiboOverlay : public tsl::Overlay {
             g_InitializationOk = tr::Load() && emu::IsAvailable() && R_SUCCEEDED(emu::Initialize()) && R_SUCCEEDED(pmdmntInitialize()) && R_SUCCEEDED(nsInitialize());
             if(g_InitializationOk) {
                 g_Version = emu::GetVersion();
+                // TODO: distinguish between different possible issues?
                 g_InitializationOk &= g_Version.EqualsExceptBuild(ExpectedVersion);
             }
 
