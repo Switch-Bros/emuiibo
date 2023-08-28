@@ -19,7 +19,7 @@
         
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-        <kotlin.compiler.jvmTarget>10</kotlin.compiler.jvmTarget>
+        <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
         <kotlin.version>1.7.10</kotlin.version>
 
         <javafx.plugin.version>0.0.5</javafx.plugin.version>
@@ -36,21 +36,21 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>linux</classifier>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>win</classifier>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>mac</classifier>
             <scope>compile</scope>
         </dependency>
@@ -58,21 +58,21 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>linux</classifier>
             <scope>compile</scope> 
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>win</classifier>
             <scope>compile</scope> 
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>mac</classifier>
             <scope>compile</scope> 
         </dependency>
@@ -80,21 +80,21 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>linux</classifier>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>win</classifier>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>17</version>
+            <version>12</version>
             <classifier>mac</classifier>
             <scope>compile</scope>
         </dependency>
@@ -113,11 +113,6 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20230227</version>
-        </dependency>
-        <dependency>
-            <groupId>org.controlsfx</groupId>
-            <artifactId>controlsfx</artifactId>
-            <version>11.1.2</version>
         </dependency>
     </dependencies>
 

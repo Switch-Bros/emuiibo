@@ -7,6 +7,7 @@ import java.io.File
 import java.io.FileInputStream
 import javafx.fxml.FXML
 import javafx.scene.control.Button
+import javafx.scene.control.ComboBox
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
@@ -25,7 +26,6 @@ import javafx.beans.value.ChangeListener
 import javafx.beans.binding.Bindings
 import javafx.concurrent.Task
 import javafx.application.HostServices
-import org.controlsfx.control.SearchableComboBox
 import org.apache.commons.io.FileUtils
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPClientConfig
@@ -55,8 +55,8 @@ class MainController {
 
     @FXML lateinit var AboutButton: Button;
     
-    @FXML lateinit var GenerateOneAmiiboSeriesBox: SearchableComboBox<String>;
-    @FXML lateinit var AmiiboBox: SearchableComboBox<String>;
+    @FXML lateinit var GenerateOneAmiiboSeriesBox: ComboBox<String>;
+    @FXML lateinit var AmiiboBox: ComboBox<String>;
     @FXML lateinit var AmiiboImage: ImageView;
     @FXML lateinit var StatusLabel: Label;
 
@@ -79,7 +79,7 @@ class MainController {
 
     @FXML lateinit var GenerateSeriesUseRandomUuidCheck: CheckBox;
     @FXML lateinit var GenerateSeriesImageSaveCheck: CheckBox;
-    @FXML lateinit var GenerateSeriesAmiiboSeriesBox: SearchableComboBox<String>;
+    @FXML lateinit var GenerateSeriesAmiiboSeriesBox: ComboBox<String>;
     @FXML lateinit var GenerateSeriesFtpCheck: CheckBox;
     @FXML lateinit var GenerateSeriesFtpAddress: TextField;
     @FXML lateinit var GenerateSeriesFtpPort: TextField;
