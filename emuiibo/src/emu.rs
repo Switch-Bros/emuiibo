@@ -40,7 +40,7 @@ pub const IS_DEV_BUILD: bool = true;
 #[cfg(not(debug_assertions))]
 pub const IS_DEV_BUILD: bool = false;
 
-pub const CURRENT_VERSION: Version = Version::from(1, 1, 0, IS_DEV_BUILD);
+pub const CURRENT_VERSION: Version = Version::from(1, 1, 1, IS_DEV_BUILD);
 
 static mut G_EMULATION_STATUS: sync::Locked<EmulationStatus> = sync::Locked::new(false, EmulationStatus::Off);
 static mut G_ACTIVE_VIRTUAL_AMIIBO_STATUS: sync::Locked<VirtualAmiiboStatus> = sync::Locked::new(false, VirtualAmiiboStatus::Invalid);
