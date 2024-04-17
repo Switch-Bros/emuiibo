@@ -1,6 +1,6 @@
 use alloc::{string::{String, ToString}, vec::Vec};
 use serde::{Serialize, Deserialize};
-use nx::{result::*, service::mii, fs};
+use nx::{fs, ipc::sf::ncm, result::*, service::mii};
 use crate::{area, fsext, miiext};
 use super::{bin, compat, fmt};
 
@@ -112,7 +112,7 @@ impl compat::DeprecatedVirtualAmiiboFormat for VirtualAmiibo {
         // Save application area if present
         if plain_bin.dec_data.settings.flags.contains(bin::Flags::ApplicationAreaUsed()) {
             let access_id = plain_bin.dec_data.settings.access_id_be.swap_bytes();
-            let program_id = plain_bin.dec_data.settings.program_id_be.swap_bytes();
+            let program_id = ncm::ProgramId(plain_bin.dec_data.settings.program_id_be.swap_bytes());
             let existing_id = existing_access_id.unwrap_or(0);
 
             if existing_access_id.is_none() || (existing_id != access_id) {

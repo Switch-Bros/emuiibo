@@ -4,6 +4,7 @@ use crate::fsext;
 use super::{bin, compat, fmt};
 use alloc::string::ToString;
 use nx::fs;
+use nx::ipc::sf::ncm;
 use nx::result::*;
 use alloc::string::String;
 
@@ -45,7 +46,7 @@ impl compat::DeprecatedVirtualAmiiboFormat for VirtualAmiibo {
         // Save application area if present
         if plain_bin.dec_data.settings.flags.contains(bin::Flags::ApplicationAreaUsed()) {
             let access_id = plain_bin.dec_data.settings.access_id_be.swap_bytes();
-            let program_id = plain_bin.dec_data.settings.program_id_be.swap_bytes();
+            let program_id = ncm::ProgramId(plain_bin.dec_data.settings.program_id_be.swap_bytes());
             let bin_area = area::ApplicationArea::from(&amiibo, access_id);
             bin_area.create(plain_bin.dec_data.app_area.as_ptr(), plain_bin.dec_data.app_area.len(), false)?;
 

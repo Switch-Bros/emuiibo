@@ -1,3 +1,4 @@
+use nx::ipc::sf::ncm;
 use nx::result::*;
 use serde::{Serialize, Deserialize};
 use alloc::string::String;
@@ -132,8 +133,8 @@ pub struct VirtualAmiiboAreaEntry {
     pub access_id: nfp::AccessId
 }
 
-// Retail Interactive Display Menu (a quite symbolic ID)
-pub const DEFAULY_EMPTY_AREA_PROGRAM_ID: u64 = 0x0100069000078000;
+// Retail Interactive Display Menu (quite a symbolic ID)
+pub const DEFAULY_EMPTY_AREA_PROGRAM_ID: ncm::ProgramId = ncm::ProgramId(0x0100069000078000);
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct VirtualAmiiboAreaInfo {
@@ -177,7 +178,7 @@ pub fn generate_areas_json(path: String) -> Result<Option<nfp::AccessId>> {
     let mut areas = VirtualAmiiboAreaInfo::empty();
     for access_id in &access_ids {
         let area_entry = VirtualAmiiboAreaEntry {
-            program_id: DEFAULY_EMPTY_AREA_PROGRAM_ID,
+            program_id: DEFAULY_EMPTY_AREA_PROGRAM_ID.0,
             access_id: *access_id
         };
         areas.areas.push(area_entry);
@@ -234,7 +235,7 @@ impl VirtualAmiibo {
             Ok(mii_charinfo_file.read_val()?)
         }
         else {
-            let mut random_mii = miiext::generate_random_mii()?;
+            let random_mii = miiext::generate_random_mii()?;
             let mut mii_charinfo_file = fs::open_file(mii_charinfo_path, fs::FileOpenOption::Create() | fs::FileOpenOption::Write() | fs::FileOpenOption::Append())?;
             mii_charinfo_file.write_val(&random_mii)?;
             Ok(random_mii)
@@ -257,18 +258,18 @@ impl VirtualAmiibo {
     }
 
     #[inline]
-    pub fn register_area(&mut self, access_id: nfp::AccessId, program_id: u64) -> bool {
+    pub fn register_area(&mut self, access_id: nfp::AccessId, program_id: ncm::ProgramId) -> bool {
         if self.has_application_area(access_id) {
             false
         }
         else {
-            self.areas.areas.push(VirtualAmiiboAreaEntry { program_id, access_id });
+            self.areas.areas.push(VirtualAmiiboAreaEntry { program_id: program_id.0, access_id });
             true
         }
     }
 
     #[inline]
-    pub fn ensure_area_registered(&mut self, access_id: nfp::AccessId, program_id: u64) {
+    pub fn ensure_area_registered(&mut self, access_id: nfp::AccessId, program_id: ncm::ProgramId) {
         self.register_area(access_id, program_id);
     }
 
@@ -317,12 +318,12 @@ impl VirtualAmiibo {
         self.notify_written()
     }
 
-    pub fn update_area_program_id(&mut self, access_id: nfp::AccessId, program_id: u64) -> Result<()> {
+    pub fn update_area_program_id(&mut self, access_id: nfp::AccessId, program_id: ncm::ProgramId) -> Result<()> {
         self.ensure_area_registered(access_id, DEFAULY_EMPTY_AREA_PROGRAM_ID);
         
         for area_entry in &mut self.areas.areas {
             if area_entry.access_id == access_id {
-                area_entry.program_id = program_id;
+                area_entry.program_id = program_id.0;
                 break;
             }
         }
@@ -422,12 +423,12 @@ impl VirtualAmiibo {
         let cur_area = self.get_current_area();
 
         let program_id = match cur_area {
-            Some(ref area_entry) => area_entry.program_id,
+            Some(ref area_entry) => ncm::ProgramId(area_entry.program_id),
             None => DEFAULY_EMPTY_AREA_PROGRAM_ID
         };
         let console_family = {
             // 0x0100 for Switch, 0x0004 for 3DS, 0x0005 for Wii U
-            match program_id >> 48 {
+            match program_id.0 >> 48 {
                 0x0100 => nfp::ConsoleFamily::NintendoSwitch,
                 0x0004 => nfp::ConsoleFamily::Nintendo3DS,
                 0x0005 => nfp::ConsoleFamily::NintendoWiiU,

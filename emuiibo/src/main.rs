@@ -1,7 +1,5 @@
 #![no_std]
 #![no_main]
-#![feature(core_intrinsics)]
-#![feature(const_maybe_uninit_zeroed)]
 #![feature(const_trait_impl)]
 
 #[macro_use]

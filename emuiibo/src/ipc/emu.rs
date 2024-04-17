@@ -1,4 +1,5 @@
 use alloc::string::ToString;
+use nx::ipc::sf::ncm;
 use nx::ipc::sf::sm;
 use nx::result::*;
 use nx::ipc::sf;
@@ -21,7 +22,7 @@ ipc_sf_define_interface_trait! {
         reset_active_virtual_amiibo [6, version::VersionInterval::all()]: () => ();
         get_active_virtual_amiibo_status [7, version::VersionInterval::all()]: () => (status: emu::VirtualAmiiboStatus);
         set_active_virtual_amiibo_status [8, version::VersionInterval::all()]: (status: emu::VirtualAmiiboStatus) => ();
-        is_application_id_intercepted [9, version::VersionInterval::all()]: (application_id: u64) => (is_intercepted: bool);
+        is_application_id_intercepted [9, version::VersionInterval::all()]: (application_id: ncm::ProgramId) => (is_intercepted: bool);
         try_parse_virtual_amiibo [10, version::VersionInterval::all()]: (path: sf::InMapAliasBuffer<u8>) => (virtual_amiibo: amiibo::fmt::VirtualAmiiboData);
         get_active_virtual_amiibo_areas [11, version::VersionInterval::all()]: (out_areas: sf::OutMapAliasBuffer<amiibo::fmt::VirtualAmiiboAreaEntry>) => (count: u32);
         get_active_virtual_amiibo_current_area [12, version::VersionInterval::all()]: () => (access_id: nfp::AccessId);
@@ -104,8 +105,8 @@ impl IEmulationService for EmulationService {
         Ok(())
     }
 
-    fn is_application_id_intercepted(&mut self, application_id: u64) -> Result<bool> {
-        log!("IsApplicationIdIntercepted -- app_id: {:#X}\n", application_id);
+    fn is_application_id_intercepted(&mut self, application_id: ncm::ProgramId) -> Result<bool> {
+        log!("IsApplicationIdIntercepted -- app_id: {:#X}\n", application_id.0);
         Ok(emu::is_application_id_intercepted(application_id))
     }
 

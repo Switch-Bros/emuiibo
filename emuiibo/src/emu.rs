@@ -1,4 +1,5 @@
 use nx::sync;
+use nx::ipc::sf::ncm;
 use alloc::vec::Vec;
 use crate::amiibo;
 use crate::fsext;
@@ -88,21 +89,21 @@ pub fn set_active_virtual_amiibo_status(status: VirtualAmiiboStatus) {
     }
 }
 
-pub fn register_intercepted_application_id(application_id: u64) {
+pub fn register_intercepted_application_id(application_id: ncm::ProgramId) {
     unsafe {
-        G_INTERCEPTED_APPLICATION_IDS.get().push(application_id);
+        G_INTERCEPTED_APPLICATION_IDS.get().push(application_id.0);
     }
 }
 
-pub fn unregister_intercepted_application_id(application_id: u64) {
+pub fn unregister_intercepted_application_id(application_id: ncm::ProgramId) {
     unsafe {
-        G_INTERCEPTED_APPLICATION_IDS.get().retain(|&id| id != application_id);
+        G_INTERCEPTED_APPLICATION_IDS.get().retain(|&id| id != application_id.0);
     }
 }
 
-pub fn is_application_id_intercepted(application_id: u64) -> bool {
+pub fn is_application_id_intercepted(application_id: ncm::ProgramId) -> bool {
     unsafe {
-        G_INTERCEPTED_APPLICATION_IDS.get().contains(&application_id)
+        G_INTERCEPTED_APPLICATION_IDS.get().contains(&application_id.0)
     }
 }
 
